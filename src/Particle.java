@@ -1,4 +1,4 @@
-public class Particle {
+public abstract class Particle {
     Vector position;
     float mass;
 
