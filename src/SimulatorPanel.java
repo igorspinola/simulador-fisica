@@ -13,12 +13,22 @@ public class SimulatorPanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 
+//    int FPS = 190;
+    int FPS = 200;
+
+    KeyHandler keyHandler = new KeyHandler();
     Thread simulatorThread;
+
+    int playerX = 100;
+    int playerY = 100;
+    int playerSpeed = 20;
 
     public SimulatorPanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyHandler);
+        this.setFocusable(true);
     }
 
     public void startThread() {
@@ -28,15 +38,59 @@ public class SimulatorPanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
+
+        double drawInterval = 1000000000/FPS; // 0.0166 segundos
+        double nextDrawTime = System.nanoTime() + drawInterval;
+
+        long currentTime;
+        long lastTime = System.nanoTime();
+        long timer = 0;
+        int drawCount = 0;
+
         while(simulatorThread != null) {
+            currentTime = System.nanoTime();
+
+            Toolkit.getDefaultToolkit().sync();
+            timer += (currentTime - lastTime);
+            lastTime = currentTime;
 
             update();
             repaint();
+            drawCount++;
 
+            if(timer >= 1000000000) {
+                System.out.println("FPS: " + drawCount);
+                timer = 0;
+                drawCount = 0;
+            }
+
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime / 100000;
+
+                if (remainingTime < 0) {
+                    remainingTime = 0;
+                }
+
+                Thread.sleep((long) remainingTime);
+
+                nextDrawTime += drawInterval;
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
     }
     public void update() {
+
+        if(keyHandler.rightPressed) {
+            playerX += playerSpeed / 10;
+        }
+
+        if(keyHandler.leftPressed) {
+            playerX -= playerSpeed / 10;
+        }
 
     }
     public void paintComponent(Graphics g) {
@@ -44,9 +98,10 @@ public class SimulatorPanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.setColor(Color.white);
+        g2.setColor(Color.CYAN);
 
-        g2.fillRect(100, 100, tileSize, tileSize);
+        g2.fillRect(playerX, playerY, tileSize, tileSize);
+//        g2.fillRect(200, 200, screenWidth, tileSize);
 
         g2.dispose();
 

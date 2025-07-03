@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 public class Main {
     public static void main(String[] args) {
-
         JFrame window = new JFrame("Simulador de mecânica");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
