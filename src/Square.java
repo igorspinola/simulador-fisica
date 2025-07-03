@@ -4,4 +4,5 @@ public class Square extends Particle {
         super(x, y, mass);
         this.side = side;
     }
+    
 }
