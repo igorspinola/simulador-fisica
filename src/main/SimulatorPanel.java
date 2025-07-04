@@ -1,3 +1,7 @@
+package main;
+
+import entity.Square;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +11,7 @@ public class SimulatorPanel extends JPanel implements Runnable {
     final int originalTileSize = 16;
     final int scale = 3;
 
-    final int tileSize = originalTileSize * scale;
+    public final int tileSize = originalTileSize * scale;
     final int maxScreenCol = 16;
     final int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol;
@@ -18,10 +22,7 @@ public class SimulatorPanel extends JPanel implements Runnable {
 
     KeyHandler keyHandler = new KeyHandler();
     Thread simulatorThread;
-
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 20;
+    Square square = new Square(100, 100, 20, tileSize, this, keyHandler);
 
     public SimulatorPanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -58,11 +59,11 @@ public class SimulatorPanel extends JPanel implements Runnable {
             repaint();
             drawCount++;
 
-            if(timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
-                timer = 0;
-                drawCount = 0;
-            }
+//            if(timer >= 1000000000) {
+//                System.out.println("FPS: " + drawCount);
+//                timer = 0;
+//                drawCount = 0;
+//            }
 
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
@@ -83,25 +84,14 @@ public class SimulatorPanel extends JPanel implements Runnable {
 
     }
     public void update() {
-
-        if(keyHandler.rightPressed) {
-            playerX += playerSpeed / 10;
-        }
-
-        if(keyHandler.leftPressed) {
-            playerX -= playerSpeed / 10;
-        }
-
+        square.update();
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.setColor(Color.CYAN);
-
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
-//        g2.fillRect(200, 200, screenWidth, tileSize);
+        square.draw(g2);
 
         g2.dispose();
 
