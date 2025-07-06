@@ -20,6 +20,7 @@ public class SimulatorPanel extends JPanel implements Runnable {
 
 //    int FPS = 190;
     int FPS = 200;
+    //int FPS = 60;
 
     TileManager tileM = new TileManager(this);
     KeyHandler keyHandler = new KeyHandler();

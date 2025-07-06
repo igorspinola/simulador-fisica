@@ -18,11 +18,17 @@ public class Square extends Particle {
         setDefaultValues();
     }
     public void setDefaultValues() {
-        velocity.x = 25;
+        velocity.x = 20;
         velocity.y = 0;
+        acceleration.y = 10;
+        this.standardize();
 
     }
+
     public void update() {
+
+        this.velocity.add(this.acceleration);
+        this.position.add(this.velocity);
 
         if(keyH.rightPressed) {
             this.position.x += this.velocity.x / 10;

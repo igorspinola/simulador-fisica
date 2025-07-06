@@ -39,7 +39,6 @@ public class TileManager {
                 for (int col = 0; col < numbers.length && col < sp.maxScreenCol; col++) {
                     int num = Integer.parseInt(numbers[col].trim());
                     mapTileNumber[col][row] = num;
-                    System.out.println("Row: " + row + ", Col: " + col + ", Tile: " + num);
                 }
                 row++;
             }
@@ -73,7 +72,6 @@ public class TileManager {
        while(col < sp.maxScreenCol && row < sp.maxScreenRow) {
 
           int tileNum = mapTileNumber[col][row];
-//           System.out.println(tileNum);
 
            g2.drawImage(tile[tileNum].image, x, y, sp.tileSize, sp.tileSize, null);
            col++;
