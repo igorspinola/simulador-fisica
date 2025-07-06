@@ -16,6 +16,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         int code = e.getKeyCode();
+        System.out.println("Tecla pressionada" + code);
 
         if(code == KeyEvent.VK_LEFT) {
             this.leftPressed = true;

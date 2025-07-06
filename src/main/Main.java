@@ -12,11 +12,9 @@ public class Main {
         window.add(simulatorPanel);
 
         window.pack();
-
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
         simulatorPanel.startThread();
-
     }
 }

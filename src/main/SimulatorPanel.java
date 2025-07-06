@@ -5,6 +5,7 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Scanner;
 
 public class SimulatorPanel extends JPanel implements Runnable {
 
@@ -24,6 +25,11 @@ public class SimulatorPanel extends JPanel implements Runnable {
     int FPS = 200;
     //int FPS = 60;
 
+
+    public int getFPS() {
+        return FPS;
+    }
+
     TileManager tileM = new TileManager(this);
     KeyHandler keyHandler = new KeyHandler();
     Thread simulatorThread;
@@ -35,9 +41,12 @@ public class SimulatorPanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+        inputVariable();
+
     }
 
     public void startThread() {
+        this.requestFocus();
        simulatorThread = new Thread(this);
        simulatorThread.start();
     }
@@ -104,4 +113,68 @@ public class SimulatorPanel extends JPanel implements Runnable {
         g2.dispose();
 
     }
+
+    public int groundLevelY() {
+        return screenHeight - tileSize;
+    }
+
+
+    public void inputVariable(){
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Digite a valocidade: ");
+        float velocity = scanner.nextFloat();
+
+        System.out.print("Digite o angulo do lançamento");
+        float angleG = scanner.nextFloat();
+
+        System.out.print("Digite a altura do lançamento");
+        float heigth = scanner.nextFloat();
+
+        // Calculando angulo em R
+        double angleR = (angleG * Math.PI) / 180;
+
+        // Calculando velocidades horizontais e verticais
+        double vx = velocity * Math.cos(angleR);
+        double vy = velocity * Math.sin(angleR);
+
+        // Calculando valor do tempo
+        double g = 9.8;
+        double a = -g /2;
+        double b = vy;
+        double c = heigth;
+
+        double delta = b*b - 4*a*c;
+
+        if (delta < 0) {
+            System.out.print("Não há solução, tempo menor que 0");
+            return;
+        }
+
+        double t1 = (-b + Math.sqrt(delta)) / (2 * a);
+        double t2 = (-b - Math.sqrt(delta)) / (2 * a);
+
+        double t;
+        if (t1 > 0 && t2 > 0) {
+            t = Math.max(t1, t2);
+        } else if (t1 > 0) {
+            t = t1;
+        } else if (t2 > 0) {
+            t = t2;
+        } else {
+            System.out.println("Nenhum tempo positivo válido encontrado.");
+            return;
+        }
+
+        square.launch(velocity, angleG, heigth);
+
+        System.out.println("Tempo total de voo: " + t + " segundos");
+
+        // Distancia horizontal
+        double distancia = vx * t;
+        System.out.println("Distância horizontal percorrida: " + distancia + " metros");
+
+        scanner.close();
+    }
+
 }
