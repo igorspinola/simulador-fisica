@@ -4,7 +4,7 @@ public abstract class Particle {
     Vector position;
     Vector velocity;
     Vector acceleration;
-    float mass;
+    private final float mass;
 
     Particle(float x, float y, float mass) {
         this.position = new Vector(x, y);
@@ -19,4 +19,7 @@ public abstract class Particle {
         this.acceleration = new Vector(0,0);
     }
 
+    public float getMass() {
+        return this.mass;
+    }
 }

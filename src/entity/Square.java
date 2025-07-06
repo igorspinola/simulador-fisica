@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class Square extends Particle {
     float side;
-    SimulatorPanel p;
-    KeyHandler keyH;
+    private SimulatorPanel p;
+    private KeyHandler keyH;
 
     public Square(float x, float y, float mass, float side, SimulatorPanel p, KeyHandler keyH) {
         super(x, y, mass);
@@ -35,7 +35,7 @@ public class Square extends Particle {
 
     }
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.RED);
+        g2.setColor(new Color(248,165,64,255));
 
         g2.fillRect((int)this.position.x, (int)this.position.y, (int)this.side, (int)this.side);
 //        g2.fillRect(200, 200, screenWidth, tileSize);

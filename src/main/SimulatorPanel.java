@@ -1,6 +1,7 @@
 package main;
 
 import entity.Square;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,14 +13,15 @@ public class SimulatorPanel extends JPanel implements Runnable {
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale;
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = tileSize * maxScreenCol;
+    public final int screenHeight = tileSize * maxScreenRow;
 
 //    int FPS = 190;
     int FPS = 200;
 
+    TileManager tileM = new TileManager(this);
     KeyHandler keyHandler = new KeyHandler();
     Thread simulatorThread;
     Square square = new Square(100, 100, 20, tileSize, this, keyHandler);
@@ -88,8 +90,11 @@ public class SimulatorPanel extends JPanel implements Runnable {
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+//        setBackground(new Color(106,137,254,255));
 
         Graphics2D g2 = (Graphics2D) g;
+
+        tileM.draw(g2);
 
         square.draw(g2);
 
