@@ -177,4 +177,18 @@ public class SimulatorPanel extends JPanel implements Runnable {
         scanner.close();
     }
 
+    public boolean isCollidingWithTile(float x, float y, float side){
+        int leftCol = (int) x / tileSize;
+        int rightCol = (int) (x + side - 1) / tileSize;
+        int bottomRow = (int) (y + side - 1) / tileSize;
+
+        try {
+            boolean leftCollision = tileM.tile[tileM.mapTileNumber[leftCol][bottomRow]].collision;
+            boolean rightCollision = tileM.tile[tileM.mapTileNumber[rightCol][bottomRow]].collision;
+            return leftCollision || rightCollision;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false;
+        }
+    }
+
 }
