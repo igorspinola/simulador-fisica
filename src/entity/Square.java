@@ -49,7 +49,6 @@ public class Square extends Particle {
         this.timeElapsed = 0;
         this.launched = true;
 
-        // Ajusta posição vertical inicial
         this.position.x = initialX;
         this.position.y = initialY;
     }
@@ -63,8 +62,8 @@ public class Square extends Particle {
             this.position.x = (float) (initialX + vx * timeElapsed * scale);
             this.position.y = (float) (p.screenHeight - (initialY + vy * timeElapsed - 0.5 * g * timeElapsed * timeElapsed) * scale - side);
 
-            if (this.position.y >= p.groundLevelY() - side) {
-                this.position.y = p.screenHeight - side;
+            if (p.isCollidingWithTile(this.position.x, this.position.y, this.side)) {
+                this.position.y = ((int)(this.position.y + this.side) / p.tileSize) * p.tileSize - this.side;
                 this.launched = false;
             }
         } else {
@@ -82,7 +81,6 @@ public class Square extends Particle {
         g2.setColor(new Color(248,165,64,255));
 
         g2.fillRect((int)this.position.x, (int)this.position.y, (int)this.side, (int)this.side);
-//        g2.fillRect(200, 200, screenWidth, tileSize);
 
     }
 
