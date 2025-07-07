@@ -11,9 +11,9 @@ import java.io.InputStreamReader;
 
 public class TileManager {
     SimulatorPanel sp;
-    Tile[] tile;
+    public Tile[] tile;
     String path;
-    int mapTileNumber[][];
+    public int mapTileNumber[][];
 
     public TileManager(SimulatorPanel sp) {
         this.path = "/resources/tiles/";
@@ -52,16 +52,23 @@ public class TileManager {
 
     public void getTileImage() {
         try {
+            // Inicialize o array de tiles com 10 elementos
+            tile = new Tile[2];  // O array de tiles deve ter pelo menos 2 elementos
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream(this.path + "sky.png"));
             tile[1] = new Tile();
+
+            // Atribuindo as imagens
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream(this.path + "sky.png"));
             tile[1].image = ImageIO.read(getClass().getResourceAsStream(this.path + "grass.png"));
 
+            // Definindo as colisões
+            tile[0].collision = false; // O tile de céu não tem colisão
+            tile[1].collision = true;  // O tile de grama tem colisão
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
     public void draw(Graphics2D g2) {
 
        int col = 0;
